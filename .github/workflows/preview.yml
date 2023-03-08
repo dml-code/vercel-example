@@ -12,9 +12,17 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
+
       - name: Checkout 🛎
         uses: actions/checkout@v1
+
       - name: Run Cypress 🌲
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Cypress Results
+          path: cypress/videos
