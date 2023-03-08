@@ -21,7 +21,6 @@ jobs:
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
 
-      # check artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
