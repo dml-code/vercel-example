@@ -1,6 +1,6 @@
 name: ci
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
-on: [pull_request]
+on: [pull_request, deployment, deployment_status]
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
