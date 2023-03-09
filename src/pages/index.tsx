@@ -17,7 +17,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            Doms FAIL Vercel Preview env&nbsp;
+            Doms Vercel Preview env&nbsp;
             <code className={styles.code}>src/pages/index.tsx</code>
           </p>
           <div>
