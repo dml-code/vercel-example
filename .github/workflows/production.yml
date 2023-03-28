@@ -1,23 +1,14 @@
 name: production
 
 on:
-  deployment_status:
+  push:
     branches:
       - main
-    types:
-      - success
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
     if: success()
-    steps:
-      - name: Wait for deployment URL
-        uses: dawidd6/action-wait-for-deployment-url@v1.3
-        with:
-          environment_url: ${{ github.event.deployment_status.target_url }}
-          max_attempts: 10
-          delay_seconds: 10
 
       - name: Checkout 🛎
         uses: actions/checkout@v2
