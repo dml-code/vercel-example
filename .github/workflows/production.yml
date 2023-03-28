@@ -9,7 +9,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     if: success()
-
+    steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
         with:
