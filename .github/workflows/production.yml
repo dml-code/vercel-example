@@ -1,21 +1,33 @@
-name: GitHub Actions Vercel Production Deployment
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+name: production
+
 on:
-  push:
+  deployment_status:
     branches:
       - main
+    types:
+      - success
+
 jobs:
-  Deploy-Production:
+  e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Vercel CLI
-        run: npm install --global vercel@canary
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Checkout 🛎
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+          yarn cypress install
+        working-directory: tests
+
+      - name: Run Cypress 🌲
+        uses: cypress-io/github-action@v3
+        with:
+          working-directory: tests
+          config-file: cypress.config.js
+          command-prefix: yarn dlx
+          install: false
+        env:
+          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
