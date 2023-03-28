@@ -1,11 +1,9 @@
 name: production
 
 on:
-  deployment_status:
+  push:
     branches:
       - main
-    types:
-      - success
 
 jobs:
   e2e:
