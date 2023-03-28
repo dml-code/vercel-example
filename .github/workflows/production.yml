@@ -1,14 +1,11 @@
 name: production
 
-on:
-  push:
-    branches:
-      - main
+on: [deployment_status]
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    if: success()
+    if: github.event.deployment.environment == 'Production' && github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
@@ -25,3 +22,13 @@ jobs:
         uses: cypress-io/github-action@v4
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+
+  release:
+    needs: e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Alias Production URL
+        run: vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $VERCEL_URL ${{ vars.PRODUCTION_URL }}
