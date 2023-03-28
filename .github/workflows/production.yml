@@ -22,13 +22,3 @@ jobs:
         uses: cypress-io/github-action@v4
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
-
-  release:
-    needs: e2e
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Alias Production URL
-        run: vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $VERCEL_URL ${{ vars.PRODUCTION_URL }}
