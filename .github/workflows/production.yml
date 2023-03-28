@@ -1,7 +1,6 @@
 name: production
 
-on:
-  push:
+on: [push, deployment, deployment_status]
     branches:
       - main
 
