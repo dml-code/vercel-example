@@ -17,6 +17,5 @@ jobs:
 
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v4
-        with:
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
